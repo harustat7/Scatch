@@ -1,0 +1,20 @@
+data we need to store(data models)
+(user)
+userModel
+full name-string
+email-string
+password-string
+cart-array
+isAdmin-boolean
+orders-array
+contact-number
+picture-db
+
+(product)
+image
+name
+price
+discount
+bgcolor
+panelcolor
+textcolor

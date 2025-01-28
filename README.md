@@ -12,12 +12,11 @@ Cart Operations: Users can interact with a shopping cart to manage their purchas
 Dynamic Shop Page: Products are displayed dynamically using shop.ejs.<br>
 
 <h2>Technologies Used:</h2>
-Backend:<br>
-Node.js<br>
+Backend:
+Node.js,
 Express.js<br>
 Database:
 MongoDB<br>
-
-<h2>Frontend:</h2>
-HTML<br>
+Frontend:
+HTML,
 Tailwind CSS

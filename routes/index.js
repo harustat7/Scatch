@@ -20,7 +20,7 @@ router.get("/cart",isLoggedIn,async function(req,res){
     .findOne({email:req.user.email})
     .populate("cart");
 
-    const bill = (Number(user.cart[0].price)+20) - Number(user.cart[0].discount)
+    const bill = (Number(user.cart[item].price)+20) - Number(user.cart[item].discount)
     res.render("cart",{user,bill});
 });
 

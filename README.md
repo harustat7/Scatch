@@ -11,7 +11,7 @@ Product Management: Owners can add products directly, and changes are reflected 
 Cart Operations: Users can interact with a shopping cart to manage their purchases.<br>
 Dynamic Shop Page: Products are displayed dynamically using shop.ejs.<br>
 
-<h2>Technologies Used:</h2>
+<h2>Tech Stack:</h2>
 Backend:
 Node.js,
 Express.js<br>

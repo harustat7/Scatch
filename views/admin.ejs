@@ -1,113 +1,80 @@
 <%- include('./partials/header') %>
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
-            <div class="flex flex-col">
-                <a class="block w-fit mb-2" href="">All Products</a>
-                <a class="block w-fit mb-2" href="">Create new product</a>
-            </div>
-        </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
-            <a class="text-red-500" href="">Delete all</a>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+
+<div class="w-full min-h-[90vh] flex flex-col md:flex-row px-10 py-10 gap-10">
+    
+    <!-- Sidebar Navigation -->
+    <div class="w-full md:w-[20%] flex flex-col gap-6 bg-white p-6 rounded-2xl border border-zinc-100 h-fit shadow-sm">
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Admin Options</h3>
+        <div class="flex flex-col gap-2 font-medium">
+            <a href="/owners/products" class="block w-full py-2 px-3 rounded-lg bg-blue-50 text-blue-600 text-sm transition-colors">
+                All Products
+            </a>
+            <a href="/owners/admin" class="block w-full py-2 px-3 rounded-lg hover:bg-zinc-50 text-zinc-600 text-sm transition-colors">
+                Create New Product
+            </a>
         </div>
     </div>
-    <%- include('./partials/footer') %>
+
+    <!-- Product Management Panel -->
+    <div class="flex-grow flex flex-col gap-6">
+        <div class="flex justify-between items-center mb-2">
+            <div>
+                <h2 class="text-2xl font-bold text-zinc-800">All Products</h2>
+                <p class="text-sm text-zinc-400 mt-1">Manage and monitor all published storefront items</p>
+            </div>
+            <span class="bg-zinc-100 text-zinc-600 text-xs px-3 py-1.5 rounded-full font-bold">
+                Total: <%= products.length %> items
+            </span>
+        </div>
+
+        <% if (products.length === 0) { %>
+            <div class="w-full flex flex-col items-center justify-center py-20 bg-white border border-zinc-100 rounded-3xl text-center shadow-sm">
+                <div class="w-16 h-16 rounded-2xl bg-zinc-50 flex items-center justify-center mb-4 text-zinc-400">
+                    <i class="ri-shopping-bag-3-line text-3xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-zinc-700">No products published</h3>
+                <p class="text-sm text-zinc-400 mt-1">Start by creating a new product from the sidebar.</p>
+            </div>
+        <% } else { %>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <% products.forEach(function(product){ %>
+                    <div class="group bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div>
+                            <!-- Product Image wrapper with dynamic background color -->
+                            <div class="w-full h-48 flex items-center justify-center p-6 relative" style="background-color: <%= product.bgcolor || '#f4f4f5' %>">
+                                <img class="h-32 max-w-full object-contain mix-blend-multiply" src="data:image/png;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                            </div>
+
+                            <!-- Product Info Panel with dynamic text and panel colors -->
+                            <div class="p-5 flex flex-col gap-1" style="background-color: <%= product.panelcolor || '#ffffff' %>; color: <%= product.textcolor || '#18181b' %>">
+                                <h3 class="font-bold text-lg leading-tight tracking-tight line-clamp-1">
+                                    <%= product.name %>
+                                </h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <% if (product.discount > 0) { %>
+                                        <span class="font-bold">₹<%= product.price - product.discount %></span>
+                                        <span class="text-zinc-400 line-through text-xs">₹<%= product.price %></span>
+                                    <% } else { %>
+                                        <span class="font-bold">₹<%= product.price %></span>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Actions -->
+                        <div class="p-5 border-t border-zinc-50 bg-zinc-50/50 flex justify-between items-center">
+                            <a class="flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 text-xs font-bold px-3.5 py-2 rounded-xl transition-all border border-blue-100" href="/owners/products/edit/<%= product._id %>">
+                                <i class="ri-edit-line"></i> Edit Product
+                            </a>
+                            <a class="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 text-xs font-bold px-3.5 py-2 rounded-xl transition-all border border-red-100" href="/owners/products/delete/<%= product._id %>" onclick="return confirm('Are you sure you want to delete this product?')">
+                                <i class="ri-delete-bin-line"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>

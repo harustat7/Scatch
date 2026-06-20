@@ -5,7 +5,7 @@ const config=require("config");
 mongoose
 .connect(`${config.get("MONGODB_URI")}/scatch`)
 .then(function(){
-    dbgr(connected);
+    dbgr("connected");
 })
 .catch(function(err){
     dbgr(err);

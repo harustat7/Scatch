@@ -1,0 +1,90 @@
+<%- include('./partials/header') %>
+
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+</style>
+
+<div class="w-full min-h-[90vh] px-10 py-12 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-extrabold text-zinc-800 mb-8 flex items-center gap-2">
+        <i class="ri-heart-line text-blue-600"></i> My Wishlist
+    </h2>
+
+    <% if (!user.wishlist || user.wishlist.length === 0) { %>
+        <div class="w-full flex flex-col items-center justify-center py-24 bg-white border border-zinc-100 rounded-3xl text-center shadow-sm">
+            <div class="w-24 h-24 rounded-3xl bg-blue-50/50 text-blue-600 flex items-center justify-center mb-6 shadow-inner animate-float">
+                <i class="ri-heart-3-line text-5xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-zinc-700">Your wishlist is empty</h3>
+            <p class="text-zinc-400 mt-2 max-w-sm px-4">Save items that you like to purchase them later. Start exploring our catalog now!</p>
+            <a href="/shop" class="mt-8 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg">
+                Explore Catalog <i class="ri-arrow-right-line"></i>
+            </a>
+        </div>
+    <% } else { %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+            <% user.wishlist.forEach(function(product){ %>
+                <% if (product) { %>
+                    <div class="group bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative">
+                        
+                        <!-- Remove button -->
+                        <a href="/wishlist/toggle/<%= product._id %>" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white shadow-md flex items-center justify-center text-red-500 hover:scale-110 transition-transform z-20" title="Remove from Wishlist">
+                            <i class="ri-heart-3-fill text-lg"></i>
+                        </a>
+
+                        <a href="/products/details/<%= product._id %>" class="block">
+                            <!-- Image container -->
+                            <div class="w-full h-56 flex items-center justify-center p-6 relative" style="background-color: <%= product.bgcolor || '#f4f4f5' %>">
+                                <% if(product.discount > 0) { %>
+                                    <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
+                                        Save ₹<%= product.discount %>
+                                    </span>
+                                <% } %>
+                                <img class="h-40 max-w-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500" src="data:image/png;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                            </div>
+
+                            <!-- Info panel -->
+                            <div class="p-5 flex flex-col gap-1.5" style="background-color: <%= product.panelcolor || '#ffffff' %>; color: <%= product.textcolor || '#18181b' %>">
+                                <span class="text-[10px] font-bold uppercase tracking-wider opacity-60"><%= product.category %></span>
+                                <h3 class="font-bold text-base leading-tight tracking-tight line-clamp-1">
+                                    <%= product.name %>
+                                </h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <div class="flex items-center gap-2">
+                                        <% if (product.discount > 0) { %>
+                                            <span class="font-extrabold text-base">₹<%= product.price - product.discount %></span>
+                                            <span class="opacity-40 line-through text-xs font-medium">₹<%= product.price %></span>
+                                        <% } else { %>
+                                            <span class="font-extrabold text-base">₹<%= product.price %></span>
+                                        <% } %>
+                                    </div>
+                                    <% if (product.rating > 0) { %>
+                                        <div class="flex items-center gap-1 text-xs font-bold text-amber-500">
+                                            <i class="ri-star-fill"></i>
+                                            <span><%= product.rating.toFixed(1) %></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Footer actions -->
+                        <div class="p-5 border-t border-zinc-50 flex items-center justify-between bg-zinc-50/50">
+                            <span class="text-xs font-medium text-zinc-400">In Stock</span>
+                            <a class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-blue-500/10 hover:shadow-blue-500/20 group-hover:scale-[1.02]" href="/addtocart/<%= product._id %>">
+                                <i class="ri-shopping-cart-2-line"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                <% } %>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('./partials/footer') %>

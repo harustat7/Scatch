@@ -1,41 +1,127 @@
-<% include('./partials/header') %>
-<script src="https://cdn.tailwindcss.com"></script>
+<%- include('./partials/header', {loggedin: false}) %>
 
-<% if(error.length>0) { %>
-    <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500">
-        <span class="inline-block mt-1 mb-1 text-white">
-            <%= error %>
-        </span>
-    </div>
-<% } %>
+<div class="w-full min-h-[85vh] flex items-center justify-center px-10 py-12">
+    <div class="max-w-6xl w-full grid md:grid-cols-2 gap-12 bg-white rounded-3xl shadow-xl overflow-hidden border border-zinc-100">
+        
+        <!-- Left Side: Brand Panel -->
+        <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-800 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+            <!-- Decorative circle -->
+            <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
 
-<div class="w-full h-screen flex px-20">
-    <div class="w-1/2 flex items-center justify-center h-screen">
-        <div class="w-full px-32">
-            <h3 class="text-4xl"> welcome to <span class="text-blue-400 font-semibold">Scatch</span></h3>
-            <h4 class="text-2xl mb-5">create your account</h4>
-            <form autocomplete="off" action="/users/register" method="post">
-                <input class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border"
-                type="text" placeholder="Full Name" name="fullname">
-                <input class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border"
-                type="email" placeholder="Email" name="email">
-                <input class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border"
-                type="password" placeholder="Password" name="password"> 
-                <input class="px-5 rounded-full py-3 mt-2 bg-blue-500 text-white" type="submit" value="Create My Account">
-            </form>
+            <div class="relative z-10">
+                <span class="bg-white/20 text-white text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">
+                    Welcome to Scatch
+                </span>
+                <h1 class="text-5xl font-extrabold tracking-tight mt-6 leading-tight">
+                    Discover Premium <br/>Quality Goods.
+                </h1>
+                <p class="text-indigo-100 mt-4 text-lg font-light leading-relaxed">
+                    Access our premium collection of highly curated products. Log in or create a new account to begin shopping.
+                </p>
+            </div>
+
+            <div class="relative z-10 mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-sm font-medium text-indigo-100">Secure AES-256 Authentication</span>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="w-1/2 flex items-center justify-center h-screen">
-        <div class="w-full px-32">
-            <h4 class="text-2xl mb-5">Login your account</h4>
-            <form autocomplete="off" action="/users/login" method="post">
-                <input class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border"
-                type="email" placeholder="Email" name="email">
-                <input class="bg-zinc-100 block w-full px-3 py-2 border-[1px] rounded-md mb-3 border"
-                type="password" placeholder="Password" name="password"> 
-                <input class="px-5 rounded-full py-3 mt-2 bg-blue-500 text-white" type="submit" value="Login">
-            </form>
+
+        <!-- Right Side: Forms -->
+        <div class="p-12 flex flex-col justify-center min-h-[500px]">
+            
+            <!-- Tab Controls -->
+            <div class="flex border-b border-zinc-100 mb-8 w-full">
+                <button id="tab-login" class="flex-1 pb-3 text-sm font-bold border-b-2 border-zinc-800 text-zinc-800 focus:outline-none transition-all cursor-pointer">
+                    Log In
+                </button>
+                <button id="tab-register" class="flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-zinc-400 hover:text-zinc-600 focus:outline-none transition-all cursor-pointer">
+                    Create Account
+                </button>
+            </div>
+
+            <!-- Login Panel -->
+            <div id="panel-login" class="space-y-4 transition-opacity duration-300">
+                <div>
+                    <h3 class="text-2xl font-bold text-zinc-800">Login to your account</h3>
+                    <p class="text-sm text-zinc-400 mt-1 mb-5">Welcome back! Please enter your credentials</p>
+                </div>
+                
+                <form autocomplete="off" action="/users/login" method="post" class="space-y-4">
+                    <div>
+                        <input class="bg-zinc-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none block w-full px-4 py-3 border border-zinc-200 rounded-xl transition-all"
+                        type="email" placeholder="Email Address" name="email" required>
+                    </div>
+                    <div>
+                        <input class="bg-zinc-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none block w-full px-4 py-3 border border-zinc-200 rounded-xl transition-all"
+                        type="password" placeholder="Password" name="password" required> 
+                    </div>
+                    <input class="w-full cursor-pointer px-6 py-3.5 bg-zinc-800 hover:bg-zinc-950 text-white rounded-xl font-semibold shadow-md hover:shadow-lg transition-all" type="submit" value="Log In">
+                </form>
+            </div>
+
+            <!-- Registration Panel -->
+            <div id="panel-register" class="space-y-4 hidden transition-opacity duration-300">
+                <div>
+                    <h3 class="text-2xl font-bold text-zinc-800">Create your account</h3>
+                    <p class="text-sm text-zinc-400 mt-1 mb-5">Join us to shop for premium goods</p>
+                </div>
+                
+                <form autocomplete="off" action="/users/register" method="post" class="space-y-4">
+                    <div>
+                        <input class="bg-zinc-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none block w-full px-4 py-3 border border-zinc-200 rounded-xl transition-all"
+                        type="text" placeholder="Full Name" name="fullname" required>
+                    </div>
+                    <div>
+                        <input class="bg-zinc-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none block w-full px-4 py-3 border border-zinc-200 rounded-xl transition-all"
+                        type="email" placeholder="Email Address" name="email" required>
+                    </div>
+                    <div>
+                        <input class="bg-zinc-50 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none block w-full px-4 py-3 border border-zinc-200 rounded-xl transition-all"
+                        type="password" placeholder="Create Password" name="password" required> 
+                    </div>
+                    <input class="w-full cursor-pointer px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-md shadow-blue-500/10 hover:shadow-lg transition-all" type="submit" value="Register Now">
+                </form>
+            </div>
+
         </div>
+
+        <script>
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            const panelLogin = document.getElementById('panel-login');
+            const panelRegister = document.getElementById('panel-register');
+
+            function switchTab(active) {
+                if (active === 'login') {
+                    tabLogin.classList.add('border-zinc-800', 'text-zinc-800');
+                    tabLogin.classList.remove('border-transparent', 'text-zinc-400', 'hover:text-zinc-600');
+                    tabRegister.classList.add('border-transparent', 'text-zinc-400', 'hover:text-zinc-600');
+                    tabRegister.classList.remove('border-zinc-800', 'text-zinc-800');
+                    panelLogin.classList.remove('hidden');
+                    panelRegister.classList.add('hidden');
+                } else {
+                    tabRegister.classList.add('border-zinc-800', 'text-zinc-800');
+                    tabRegister.classList.remove('border-transparent', 'text-zinc-400', 'hover:text-zinc-600');
+                    tabLogin.classList.add('border-transparent', 'text-zinc-400', 'hover:text-zinc-600');
+                    tabLogin.classList.remove('border-zinc-800', 'text-zinc-800');
+                    panelRegister.classList.remove('hidden');
+                    panelLogin.classList.add('hidden');
+                }
+            }
+
+            tabLogin.addEventListener('click', () => switchTab('login'));
+            tabRegister.addEventListener('click', () => switchTab('register'));
+
+            // Auto-switch to register tab if there's a registration error
+            const errorMsg = "<%= typeof error !== 'undefined' && error ? error : '' %>";
+            if (errorMsg.includes("Full name") || errorMsg.includes("characters long") || errorMsg.includes("already have an account") || errorMsg.includes("valid email address")) {
+                switchTab('register');
+            }
+        </script>
     </div>
 </div>
+
 <%- include('./partials/footer') %>

@@ -5,21 +5,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Scatch - Premium E-Commerce</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #fafafa;
+        }
+    </style>
 </head>
 
-<body class="font-['helvetica_now_display']">
-    <nav class="w-full flex justify-between px-5 py-3">
-        <h3 class="text-xl">Scatch</h3>
-        <% var loggedin=typeof loggedin !== "undefined" ? loggedin: true %>
-        <% if(loggedin){ %>
-        <div class="flex gap-5">
-            <a href="/shop">Shop</a>
-            <a href="/cart">Cart</a>
-            <a href="/profile">My Account</a>
-            <a class="text-red-600" href="/users/logout">Logout</a>
-        </div>
+<body class="bg-zinc-50 text-zinc-900 min-h-screen flex flex-col justify-between">
+    <nav class="w-full flex justify-between items-center px-10 py-5 bg-white border-b border-zinc-100 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/80">
+        <a href="/shop" class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:opacity-90 transition-opacity">
+            Scatch<span class="text-blue-500">.</span>
+        </a>
+        
+        <% var loggedin = typeof loggedin !== "undefined" ? loggedin : true %>
+        <% if (loggedin) { %>
+            <div class="flex items-center gap-8 font-medium text-zinc-600">
+                <% if (typeof cartCount !== "undefined") { %>
+                    <a href="/shop" class="hover:text-blue-600 transition-colors py-1">Shop</a>
+                    <a href="/wishlist" class="hover:text-blue-600 transition-colors py-1 flex items-center gap-1">
+                        <span>Wishlist</span>
+                    </a>
+                    <a href="/profile" class="hover:text-blue-600 transition-colors py-1">My Profile</a>
+                    <a href="/orders" class="hover:text-blue-600 transition-colors py-1">My Orders</a>
+                    <a href="/cart" class="hover:text-blue-600 transition-colors py-1 flex items-center gap-1.5 group">
+                        <span>Cart</span>
+                        <% if (cartCount > 0) { %>
+                            <span class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-bold group-hover:scale-110 transition-transform">
+                                <%= cartCount %>
+                            </span>
+                        <% } %>
+                    </a>
+                    <a href="/logout" class="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-1.5 rounded-full transition-all border border-red-100 hover:border-red-200">
+                        Logout
+                    </a>
+                <% } else { %>
+                    <a href="/owners/products" class="hover:text-blue-600 transition-colors py-1">All Products</a>
+                    <a href="/owners/admin" class="hover:text-blue-600 transition-colors py-1">Create Product</a>
+                    <a href="/owners/orders" class="hover:text-blue-600 transition-colors py-1">Customer Orders</a>
+                    <a href="/owners/logout" class="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-1.5 rounded-full transition-all border border-red-100 hover:border-red-200">
+                        Admin Logout
+                    </a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="flex gap-4">
+                <a href="/owners/login" class="text-sm text-zinc-500 hover:text-blue-600 font-medium transition-colors flex items-center gap-1">
+                    <i class="ri-admin-line"></i> Admin Portal
+                </a>
+            </div>
         <% } %>
     </nav>
+
+    <% if (typeof success !== "undefined" && success && success.length > 0) { %>
+        <div id="flash-alert" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 p-4 rounded-xl bg-blue-600 text-white shadow-lg flex items-center gap-3 transition-all duration-500">
+            <i class="ri-checkbox-circle-line text-xl"></i>
+            <span class="font-medium"><%= success %></span>
+        </div>
+    <% } %>
+
+    <% if (typeof error !== "undefined" && error && error.length > 0) { %>
+        <div id="flash-alert" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 p-4 rounded-xl bg-red-500 text-white shadow-lg flex items-center gap-3 transition-all duration-500">
+            <i class="ri-error-warning-line text-xl"></i>
+            <span class="font-medium"><%= error %></span>
+        </div>
+    <% } %>
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('flash-alert');
+            if (alert) {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 3000);
+    </script>
+
+    <main class="flex-grow">

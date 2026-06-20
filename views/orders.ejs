@@ -1,0 +1,152 @@
+<%- include('./partials/header') %>
+
+<div class="w-full min-h-[90vh] px-10 py-12 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-extrabold text-zinc-800 mb-8 flex items-center gap-2">
+        <i class="ri-history-line text-blue-600"></i> My Orders
+    </h2>
+
+    <% if (orders.length === 0) { %>
+        <div class="w-full flex flex-col items-center justify-center py-24 bg-white border border-zinc-100 rounded-3xl text-center shadow-sm">
+            <div class="w-20 h-20 rounded-3xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6">
+                <i class="ri-shopping-bag-3-line text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-zinc-700">No orders found</h3>
+            <p class="text-zinc-400 mt-2 max-w-sm">You haven't placed any orders yet. Add items to your cart and complete checkout to see them here.</p>
+            <a href="/shop" class="mt-8 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-lg shadow-blue-500/20">
+                Start Shopping <i class="ri-arrow-right-line"></i>
+            </a>
+        </div>
+    <% } else { %>
+        <div class="space-y-8">
+            <% orders.forEach(function(order, index){ %>
+                <div class="bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    
+                    <!-- Order Header -->
+                    <div class="bg-zinc-50 border-b border-zinc-100 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm font-medium">
+                            <div>
+                                <span class="block text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-1">Date Placed</span>
+                                <span class="text-zinc-800">
+                                    <%= new Date(order.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-1">Total Paid</span>
+                                <span class="text-zinc-800 font-bold">₹<%= order.bill || 0 %></span>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-1">Ship To</span>
+                                <span class="text-zinc-800 truncate block max-w-[150px]" title="<%= (order.shippingAddress && order.shippingAddress.fullname) || 'Customer' %>">
+                                    <%= (order.shippingAddress && order.shippingAddress.fullname) || 'Customer' %>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="block text-xs uppercase tracking-wider text-zinc-400 font-semibold mb-1">Order Status</span>
+                                <% 
+                                let statusClass = "bg-amber-50 text-amber-700 border-amber-100";
+                                let dotClass = "bg-amber-500";
+                                let statusVal = order.status || 'Processing';
+                                if (statusVal === "Delivered") {
+                                    statusClass = "bg-emerald-50 text-emerald-700 border-emerald-100";
+                                    dotClass = "bg-emerald-500";
+                                } else if (statusVal === "Shipped") {
+                                    statusClass = "bg-blue-50 text-blue-700 border-blue-100";
+                                    dotClass = "bg-blue-500";
+                                }
+                                %>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold <%= statusClass %> border">
+                                    <span class="w-1.5 h-1.5 rounded-full <%= dotClass %>"></span> <%= statusVal %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-sm font-medium text-zinc-400 md:text-right">
+                            <span class="block text-xs uppercase tracking-wider font-semibold mb-1">Payment Method</span>
+                            <span class="text-zinc-700 flex items-center gap-1.5 justify-start md:justify-end">
+                                <% if (order.paymentMethod === 'Card') { %>
+                                    <i class="ri-bank-card-line text-blue-600 text-lg"></i> Card (•••• <%= order.paymentInfo.lastFourDigits %>)
+                                <% } else if (order.paymentMethod === 'UPI') { %>
+                                    <i class="ri-qr-code-line text-emerald-600 text-lg"></i> UPI (<%= order.paymentInfo.upiId %>)
+                                <% } else if (order.paymentMethod === 'Cash') { %>
+                                    <i class="ri-hand-coin-line text-amber-600 text-lg"></i> Cash on Delivery
+                                <% } else { %>
+                                    <i class="ri-visa-fill text-blue-700 text-lg"></i> •••• <%= (order.paymentInfo && order.paymentInfo.lastFourDigits) || 'xxxx' %>
+                                <% } %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Order Details and Address -->
+                    <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-8 items-start justify-between">
+                        
+                        <!-- Products List -->
+                        <div class="flex-grow w-full space-y-6">
+                            <% 
+                            let groupedProducts = [];
+                            let itemMap = {};
+                            order.products.forEach(function(prod){
+                                if (prod) {
+                                    let id = prod._id.toString();
+                                    if (itemMap[id]) {
+                                        itemMap[id].quantity += 1;
+                                    } else {
+                                        itemMap[id] = { product: prod, quantity: 1 };
+                                        groupedProducts.push(itemMap[id]);
+                                    }
+                                }
+                            });
+                            %>
+                            <% groupedProducts.forEach(function(group){ %>
+                                <% let item = group.product; %>
+                                <div class="flex gap-6 items-center">
+                                    <div class="w-20 h-20 rounded-2xl flex items-center justify-center shrink-0 border border-zinc-100/50 shadow-sm" style="background-color: <%= item.bgcolor || '#f4f4f5' %>">
+                                        <img src="data:image/png;base64,<%= item.image.toString('base64') %>" alt="<%= item.name %>" class="h-14 w-14 object-contain mix-blend-multiply">
+                                    </div>
+                                    <div class="flex-grow min-w-0">
+                                        <h4 class="text-base font-bold text-zinc-800 leading-snug"><%= item.name %></h4>
+                                        <div class="flex items-center gap-4 mt-1">
+                                            <span class="text-sm font-semibold text-zinc-500">Qty: <%= group.quantity %></span>
+                                            <span class="text-sm font-bold text-zinc-800">₹<%= item.price - (item.discount || 0) %> each</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <!-- Delivery Address & Pricing Details Card -->
+                        <div class="w-full lg:w-[30%] bg-zinc-50/50 border border-zinc-100 rounded-2xl p-6 space-y-4 shrink-0 text-sm font-medium text-zinc-600">
+                            <div>
+                                <h4 class="text-xs uppercase tracking-wider font-bold text-zinc-400 mb-2">Delivery Details</h4>
+                                <p class="text-zinc-800 font-bold text-base leading-tight"><%= (order.shippingAddress && order.shippingAddress.fullname) || 'Customer' %></p>
+                                <p class="leading-relaxed"><%= (order.shippingAddress && order.shippingAddress.address) || '' %></p>
+                                <p><%= (order.shippingAddress && order.shippingAddress.city) || '' %> <%= (order.shippingAddress && order.shippingAddress.zip) ? '- ' + order.shippingAddress.zip : '' %></p>
+                                <p><%= (order.shippingAddress && order.shippingAddress.country) || '' %></p>
+                            </div>
+
+                            <% if (order.couponCode || (order.cashCharge && order.cashCharge > 0)) { %>
+                                <div class="border-t border-zinc-150 pt-3 space-y-1.5 text-xs">
+                                    <h4 class="text-[10px] uppercase tracking-wider font-bold text-zinc-400 mb-1">Pricing Summary</h4>
+                                    <% if (order.couponCode) { %>
+                                        <div class="flex justify-between text-zinc-500">
+                                            <span>Coupon (<%= order.couponCode %>):</span>
+                                            <span class="text-emerald-600 font-semibold">- ₹<%= order.couponDiscount %></span>
+                                        </div>
+                                    <% } %>
+                                    <% if (order.cashCharge && order.cashCharge > 0) { %>
+                                        <div class="flex justify-between text-zinc-500">
+                                            <span>Cash handling fee:</span>
+                                            <span class="text-zinc-700 font-semibold">+ ₹<%= order.cashCharge %></span>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        </div>
+
+                    </div>
+
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('./partials/footer') %>

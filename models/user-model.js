@@ -13,8 +13,23 @@ const userSchema=mongoose.Schema({
         type:Array,
         default:[]
     },
+    wishlist:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"product"
+    }],
+    defaultAddress:{
+        fullname:String,
+        address:String,
+        city:String,
+        zip:String,
+        country:String
+    },
     contact:Number,
-    picture:String
+    picture:Buffer,
+    isAdmin:{
+        type:Boolean,
+        default:false
+    }
 }); 
 
 module.exports=mongoose.model("user",userSchema);      
